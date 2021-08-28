@@ -5,7 +5,7 @@ echo
 cd discord-beta/
 echo "Running the patcher"
 echo
-python ../patcher.py
+python3 ../patcher.py
 echo
 cd ..
 echo "Recompiling the APK with patches"
