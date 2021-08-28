@@ -2,7 +2,6 @@ from os import walk, path
 
 # Things that need some renaming to actually work correctly should be edited and reviewed here every update
 bugfixes = [
-  ('useruser_guild_settings_version', 'user_guild_settings_version')
 ]
 
 # Basic replacements throughout the code to replace discord routes with fosscord routes
