@@ -3,5 +3,8 @@
   "gateway_url":"gateway.fosscord.com",
   "cdn_url":"cdn.fosscord.com",
   "invite_url":"dev.fosscord.com/invite",
+  "package_name":"com.fosscord",
+  "original_package_name":"com.discord",
+  "download_url":"https://aliucord.tk/download/discord?v=89110",
   "debug":true
 }
