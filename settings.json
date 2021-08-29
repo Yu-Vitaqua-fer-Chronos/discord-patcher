@@ -1,0 +1,7 @@
+{
+  "base_url":"dev.fosscord.com",
+  "gateway_url":"gateway.fosscord.com",
+  "cdn_url":"cdn.fosscord.com",
+  "invite_url":"dev.fosscord.com/invite",
+  "debug":true
+}
