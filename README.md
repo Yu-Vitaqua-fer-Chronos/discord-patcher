@@ -17,3 +17,6 @@ This patches the discord.apk for use with different backends/implementations. Ed
 `download_url` - The download url of the apk to decompile, it's recommended to leave this alone.
 
 `debug` - The option to enable or disable debugging options built into the discord apk. It's recommended to leave this alone.
+
+
+NOTE: This is currently broken and i so not have the motivation nor time to fix this, you are welcome to make a PR 👍
