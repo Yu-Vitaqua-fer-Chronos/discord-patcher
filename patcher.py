@@ -12,32 +12,35 @@ if code != 0:
     print("Something went wrong while downloading the file, check `download.log`")
     raise SystemExit(code)
 print("APK downloaded\nDecompiling APK...")
-if not config['package_name']:
-    system('apktool d -r discord.apk')
-else:
-    print(f"Custom package name will be `{config['package_name']}`. This may take longer to decompile and build.")
-    system('apktool d discord.apk')
+system('apktool d -r discord.apk')
 chdir('discord')
 print("\nDecompiled the apk, beginning patching process.")
 
 # Things that need some renaming to actually work correctly should be edited and reviewed here every update
 bugfixes = [
+  ('res font', 'res/font'),
 ]
 
 # Basic replacements throughout the code to replace discord routes with fosscord routes
 # NOTE: Order of replacements is VERY important and will probably have to do stupid stuff to make it customisable
 replacements = [
-  ('https://cdn.discordapp.com', 'https://'+config['cdn_url']),
-  ('https://gateway.discord.gg', 'https://'+config['gateway_url']),
-  ('https://discord.com', 'https://'+config['base_url']), # discord.com to the base url of settungs.json
-  ('https://discordapp.com', 'https://'+config['base_url']), # Extra change just in case discordapp is still used in the code somewhere
-  ('https://discord.gg', 'https://'+config['invite_url']), # discord.gg to the invite url
+  # ('https://cdn.discordapp.com', 'https://'+config['cdn_url']),
+  # ('https://gateway.discord.gg', 'https://'+config['gateway_url']),
+  # ('https://discord.com', 'https://'+config['base_url']), # discord.com to the base url of settungs.json
+  # ('https://discordapp.com', 'https://'+config['base_url']), # Extra change just in case discordapp is still used in the code somewhere
+  # ('https://discord.gg', 'https://'+config['invite_url']), # discord.gg to the invite url
+  ('discord.com/api/', config['base_url']+'/api/'),
 ]
 
 if config.get('debug'):
     replacements.append(("DEBUG:Z = false", "DEBUG:Z = true")) # Enables debug if it's true in the config
 
-# TODO: Potentially add support for patching files with .patch files?
+def patchfile(file):
+    code = system("patch -p1 --no-backup-if-mismatch -i ../patches/"+file)
+    if code != 0:
+        print("Failed to apply patchfile `"+file+"`")
+        return
+    print("Applied patchfile `"+file+"`")
 
 system("mv AndroidManifest.xml ..")
 
@@ -62,6 +65,8 @@ def patch(folder):
 patch('smali')
 patch('smali_classes2')
 patch('smali_classes3')
+patchfile('nozlib.patch')
+patchfile('fosscord.patch')
 
 system("mv ../AndroidManifest.xml .")
 
