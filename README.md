@@ -23,6 +23,10 @@ NOTE: Currently useless i don't know why it's still here
 
 ## Current Issues
 This uses discord's endpoint URLs, and uncommenting the replacer script just gives a network error when attempting to login.
+The `fosscord.patch` file does not dynamically change based on the config, this needs to be fixed.
 
 ## Notes
 This is currently broken, you are welcome to make PRs if you wish
+
+
+The patches are from https://gitdab.com/distok/cutthecord
