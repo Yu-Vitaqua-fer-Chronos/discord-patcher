@@ -18,18 +18,20 @@ print("\nDecompiled the apk, beginning patching process.")
 
 # Things that need some renaming to actually work correctly should be edited and reviewed here every update
 bugfixes = [
-  ('res font', 'res/font'),
 ]
+
+protocol = 'http://'
+if config['https']:
+    protocol = 'https://'
 
 # Basic replacements throughout the code to replace discord routes with fosscord routes
 # NOTE: Order of replacements is VERY important and will probably have to do stupid stuff to make it customisable
 replacements = [
-  # ('https://cdn.discordapp.com', 'https://'+config['cdn_url']),
-  # ('https://gateway.discord.gg', 'https://'+config['gateway_url']),
-  # ('https://discord.com', 'https://'+config['base_url']), # discord.com to the base url of settungs.json
-  # ('https://discordapp.com', 'https://'+config['base_url']), # Extra change just in case discordapp is still used in the code somewhere
-  # ('https://discord.gg', 'https://'+config['invite_url']), # discord.gg to the invite url
-  ('discord.com/api/', config['base_url']+'/api/'),
+  ('https://cdn.discordapp.com', protocol+config['cdn_url']), # cdn.discord.com to cdn url
+  ('https://gateway.discord.gg', protocol+config['gateway_url']), # gateway.discord.com to gateway url
+  ('https://discord.com', protocol+config['base_url']), # discord.com to the base url
+  ('https://discordapp.com', protocol+config['base_url']), # Extra change just in case discordapp is still used in the code somewhere
+  ('https://discord.gg', protocol+config['invite_url']), # discord.gg to the invite url
 ]
 
 if config.get('debug'):
@@ -66,7 +68,7 @@ patch('smali')
 patch('smali_classes2')
 patch('smali_classes3')
 patchfile('nozlib.patch')
-patchfile('fosscord.patch')
+# patchfile('fosscord.patch') # Broken patch
 
 system("mv ../AndroidManifest.xml .")
 

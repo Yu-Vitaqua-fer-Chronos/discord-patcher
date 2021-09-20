@@ -1,8 +1,9 @@
 {
-  "base_url":"dev.fosscord.com",
-  "gateway_url":"gateway.fosscord.com",
-  "cdn_url":"cdn.fosscord.com",
-  "invite_url":"dev.fosscord.com/invite",
+  "https":false,
+  "base_url":"185.249.198.233:3001",
+  "gateway_url":"185.249.198.233:3001/gateway",
+  "cdn_url":"185.249.198.233:3001/cdn",
+  "invite_url":"185.249.198.233:3001/invite",
   "package_name":"com.fosscord",
   "original_package_name":"com.discord",
   "download_url":"https://aliucord.tk/download/discord?v=92108",
