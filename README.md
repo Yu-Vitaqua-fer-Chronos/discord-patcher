@@ -26,12 +26,11 @@ NOTE: Currently useless i don't know why it's still here
 
 
 ## Current Issues
-This uses discord's endpoint URLs, and uncommenting the replacer script just gives a network error when attempting to login.
-The `fosscord.patch` file does not dynamically change based on the config, this needs to be fixed.
+The current and possibly only issue currently is that the gateway fails for some reason, and I can't figure out the issue currently. Any help is appreciated.
 
 ## Notes
 This is currently broken, you are welcome to make PRs if you wish
 
-To use the (broken) patcher, copy `example.settings.json` to `settings.json` and just edit the values
+To use the patcher, copy `example.settings.json` to `settings.json` and just edit the values
 
-The patches are from https://gitdab.com/distok/cutthecord
+The nozlib patch is from https://gitdab.com/distok/cutthecord

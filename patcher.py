@@ -68,7 +68,6 @@ patch('smali')
 patch('smali_classes2')
 patch('smali_classes3')
 patchfile('nozlib.patch')
-# patchfile('fosscord.patch') # Broken patch
 
 system("mv ../AndroidManifest.xml .")
 
