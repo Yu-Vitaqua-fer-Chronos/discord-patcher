@@ -26,7 +26,7 @@ NOTE: Currently useless i don't know why it's still here
 
 
 ## Current Issues
-The current and possibly only issue currently is that the gateway fails for some reason, and I can't figure out the issue currently. Any help is appreciated.
+The current issue I am having with the APK is that the Gateway fails on connect, if anyone has an idea of a solution, please let me know.
 
 ## Notes
 This is currently broken, you are welcome to make PRs if you wish

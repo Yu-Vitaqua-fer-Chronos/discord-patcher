@@ -28,10 +28,12 @@ if config['secure']:
 # NOTE: Order of replacements is VERY important and will probably have to do stupid stuff to make it customisable
 replacements = [
   ('https://cdn.discordapp.com', protocol[0]+config['cdn_url']), # cdn.discord.com to cdn url
+  ('https://media.discordapp.net', protocol[0]+config['cdn_url']), # discord media proxy to cdn url
   ('https://gateway.discord.gg', protocol[1]+config['gateway_url']), # gateway.discord.com to gateway url
   ('https://discord.com', protocol[0]+config['base_url']), # discord.com to the base url
   ('https://discordapp.com', protocol[0]+config['base_url']), # Extra change just in case discordapp is still used in the code somewhere
   ('https://discord.gg', protocol[0]+config['invite_url']), # discord.gg to the invite url
+  ('https://discord.new/', protocol[0]+config['base_url']+'/template') # discord.new to template url
 ]
 
 if config.get('debug'):
