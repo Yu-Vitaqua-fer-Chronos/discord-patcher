@@ -69,7 +69,7 @@ def patch(folder):
 patch('smali')
 patch('smali_classes2')
 patch('smali_classes3')
-patchfile('nozlib.patch')
+#patchfile('nozlib.patch')
 
 system("mv ../AndroidManifest.xml .")
 
