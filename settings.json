@@ -1,0 +1,11 @@
+{
+  "secure":true,
+  "base_url":"http://173.208.153.242:1131/",
+  "gateway_url":"ws://173.208.153.242:1131",
+  "cdn_url":"http://173.208.153.242:1131/",
+  "invite_url":"http://173.208.153.242:1131//invite",
+  "package_name":"com.dozencord",
+  "original_package_name":"com.discord",
+  "download_url":"",
+  "debug":true
+}
