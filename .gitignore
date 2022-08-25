@@ -1,8 +1,4 @@
 discord/
-keystore.jks
-download.log
-discord.apk
-fosscord.unsigned.apk
-fosscord.signed.apk
-fosscord.signed.apk.idsig
 settings.json
+*.jar
+*.apk

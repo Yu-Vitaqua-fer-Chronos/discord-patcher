@@ -1,11 +1,13 @@
 {
-  "secure":true,
-  "base_url":"dev.fosscord.com",
-  "gateway_url":"gateway.fosscord.com",
-  "cdn_url":"cdn.fosscord.com",
-  "invite_url":"dev.fosscord.com/invite",
-  "package_name":"com.fosscord",
-  "original_package_name":"com.discord",
-  "download_url":"https://aliucord.com/download/discord?v=100200",
-  "debug":true
+  "secure": true,
+  "base_url": "staging.fosscord.com",
+  "gateway_url": "staging.fosscord.com",
+  "cdn_url": "staging.fosscord.com",
+  "invite_url": "staging.fosscord.com/invite",
+  "original_package_name": "com.discord",
+  "new_package_name": "com.fosscord",
+  "old_app_name": "@string/discord",
+  "new_app_name": "Fosscord",
+  "download_url": "https://aliucord.com/download/discord?v=100200",
+  "debug": true
 }

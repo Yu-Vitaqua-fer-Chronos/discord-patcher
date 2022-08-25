@@ -1,24 +1,40 @@
 #!/usr/bin/python3
 
-from os import walk, path, chdir, system
+import os
+import shutil
+import subprocess
 from json import load as jload
+from os import chdir, path, system, unlink, walk
+
+verbose = True
+stdout = subprocess.PIPE if verbose else subprocess.DEVNULL
+stderr = subprocess.STDOUT if verbose else subprocess.DEVNULL
 
 with open('settings.json') as f:
     config = jload(f)
 
-print("Downloading `discord.apk`....")
-code = system(f'wget {config["download_url"]} -O discord.apk -o download.log')
-if code != 0:
-    print("Something went wrong while downloading the file, check `download.log`")
-    raise SystemExit(code)
-print("APK downloaded\nDecompiling APK...")
-system('apktool d -r discord.apk')
+if not os.path.isfile("discord.apk"):
+    print("[Download] Downloading Discord APK...")
+    code = system(f'curl -L {config["download_url"]} -o discord.apk')
+    if code != 0:
+        print("[Download] Failed to download APK!")
+        raise SystemExit(code)
+    print("[Download] APK Downloaded")
+else:
+    print("[Download] APK already downloaded")
+
+if os.path.exists("discord"):
+    print("[Patch] Removing old decompiled files")
+    shutil.rmtree("discord")
+
+print("[Decompile] Decompiling APK, this may take a minute...")
+r = subprocess.Popen('java -jar apktool.jar d -f discord.apk', shell=True, text=True, stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+r.stdin.write("\r\n")
+r.communicate()
 chdir('discord')
-print("\nDecompiled the apk, beginning patching process.")
 
 # Things that need some renaming to actually work correctly should be edited and reviewed here every update
-bugfixes = [
-]
+bugfixes = []
 
 protocol = ('http://', 'ws://')
 if config['secure']:
@@ -42,11 +58,10 @@ if config.get('debug'):
 def patchfile(file):
     code = system("patch -p1 --no-backup-if-mismatch -i ../patches/"+file)
     if code != 0:
-        print("Failed to apply patchfile `"+file+"`")
+        print(f"[PatchFile] Failed to apply patchfile {file}")
         return
-    print("Applied patchfile `"+file+"`")
-
-system("mv AndroidManifest.xml ..")
+    if verbose:
+        print(f"[PatchFile] Applied patchfile {file}")
 
 def patch(folder):
     for root, _, files in walk(path.join('.', folder)):
@@ -62,29 +77,58 @@ def patch(folder):
                 if tmp != data:
                     with open(fpath, 'w+') as f:
                         f.write(data)
-                    print(f"Applied patches to `{fpath}`")
+                    if verbose:
+                        print(f"[Patch] Applied patches to `{fpath}`")
             except UnicodeDecodeError:
                 pass
 
+print("[Patcher] Patching...")
 patch('smali')
 patch('smali_classes2')
 patch('smali_classes3')
-#patchfile('nozlib.patch')
 
-system("mv ../AndroidManifest.xml .")
+print("[Patcher] Patching AndroidManifest.xml...")
+with open('AndroidManifest.xml') as f:
+    manifest = f.read()
+    # manifest = manifest.replace(config['original_package_name'], config['new_package_name'])
+    if config["old_app_name"] != config["new_app_name"]:
+        manifest = manifest.replace(config['old_app_name'], config['new_app_name'])
+    if verbose:
+        print("[Patcher] Patched AndroidManifest.xml")
 
-#if config['package_name']:
-#   with open('AndroidManifest.xml') as f:
-#        manifest = f.read()
-#    manifest = manifest.replace(config['original_package_name'], config['package_name'])
-#    print("Applied patches to `AndroidManifest.xml`")
-print("\nFinished applying patches\n\nRecompiling APK...")
+    with open('AndroidManifest.xml', 'w') as f:
+        f.write(manifest)
+
+print("[Patcher] Patching complete")
 chdir('..')
-system('apktool b discord/ -o fosscord.unsigned.apk')
-print("\nRecompiled APK.\nChecking if keystore exists...")
-if not path.exists('keystore.jks'):
-    print("\nNo keystore exists, creating one...")
-    system('keytool -genkey -v -keystore keystore.jks -keyalg RSA -keysize 2048 -validity 10000')
-print("\nSigning APK...")
-system('apksigner sign --ks keystore.jks --out fosscord.signed.apk fosscord.unsigned.apk')
-print("\nFinished signing the APK, the APK's name is `fosscord.signed.apk`.")
+
+# print("[Icon] Replacing icon...")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-hdpi/ic_logo_round.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-hdpi/ic_logo_square.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xhdpi/ic_logo_round.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xhdpi/ic_logo_square.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/ic_logo_round.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/ic_logo_square.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/logo.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/ic_logo_round.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/ic_logo_square.png")
+# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/logo.png")
+
+print("[Build] Rebuilding APK...")
+r = subprocess.Popen('apktool b discord/ -o fosscord.unsigned.apk', shell=True, text=True, stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+r.stdin.write("\r\n")
+r.communicate()
+print("[Build] APK rebuilt")
+
+print("[Sign] Signing APK...")
+r = subprocess.Popen('java -jar uber-apk-signer.jar --apks fosscord.unsigned.apk -o .', shell=True, text=True, stdout=stdout, stderr=stderr)
+r.communicate()
+print("[Sign] APK signed")
+
+print("[Clean] Cleaning up...")
+# remove the decompiled files
+shutil.rmtree("discord")
+# remove the rebuilt unsigned apk
+unlink("fosscord.unsigned.apk")
+
+print("All done!")
