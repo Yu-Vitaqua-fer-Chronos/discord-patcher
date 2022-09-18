@@ -28,7 +28,7 @@ if os.path.exists("discord"):
     shutil.rmtree("discord")
 
 print("[Decompile] Decompiling APK, this may take a minute...")
-r = subprocess.Popen('java -jar apktool.jar d -f discord.apk', shell=True, text=True, stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
+r = subprocess.Popen('apktool d -f discord.apk', shell=True, text=True, stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
 r.stdin.write("\r\n")
 r.communicate()
 chdir('discord')
