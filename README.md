@@ -2,7 +2,7 @@
 
 This patches the discord.apk for use with different backends/implementations. Edit settings.json to customise options.
 
-# How do?
+# How to use this tool
 
 - copy `example.settings.json` to `settings.json`
 - edit `settings.json` as needed
@@ -11,17 +11,19 @@ This patches the discord.apk for use with different backends/implementations. Ed
 - download apktool and place it in the folder, rename it to `apktool.jar`
 - run `python patcher.py` and wait for it to complete. it can take a while.
 
-do not edit the version any higher than what its set as, it is using the latest version of the Discord android app that uses java.
+The URL for the discord APK is set as the last discord stable version using
+Java source code.
 
-this tool doesnt work for the react native version.
+This tool does not work with the React Native APK, likely because it uses Hermes
+bytecode, whereas we're patching smali code (decompiled .dex files).
 
-icon replacement doesnt work yet
+Icon replacement does not work currently.
 
-package renaming doesnt work
+Package renaming also does not work.
 
 ## Config
 
-`secure` - if https is used
+`secure` - if `https`/`wss` is used instead of `http`/`ws`.
 
 `base_url` - The base URL, this is used for API routes like `/api/`.
 
