@@ -48,3 +48,7 @@ NOTE: This is broken and will be installed under `com.discord` no matter what th
 `download_url` - The download url of the apk to decompile, it's recommended to leave this alone.
 
 `debug` - The option to enable or disable debugging options built into the discord apk. It's recommended to leave this alone.
+
+# Contributions
+Thanks to `Puyodead1` for fixing the script after months of neglect :p
+
