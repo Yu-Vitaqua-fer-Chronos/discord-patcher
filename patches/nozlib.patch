@@ -1,0 +1,34 @@
+diff -crB from/smali/com/discord/gateway/GatewaySocket.smali to/smali/com/discord/gateway/GatewaySocket.smali
+*** from/smali/com/discord/gateway/GatewaySocket.smali  2021-08-04 19:45:39.263375300 +0100
+--- to/smali/com/discord/gateway/GatewaySocket.smali    2021-08-04 23:26:38.221788200 +0100
+***************
+*** 1410,1416 ****
+
+      invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+!     const-string p1, "/?encoding=json&v=9&compress=zlib-stream"
+
+      invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+--- 1410,1416 ----
+
+      invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+!     const-string p1, "/?encoding=json&v=9"
+
+      invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  
+diff -crB from/smali/com/discord/gateway/io/OutgoingPayload$Identify.smali to/smali/com/discord/gateway/io/OutgoingPayload$Identify.smali
+*** from/smali/com/discord/gateway/io/OutgoingPayload$Identify.smali    2021-08-04 19:45:39.360374800 +0100
+--- to/smali/com/discord/gateway/io/OutgoingPayload$Identify.smali      2021-08-04 23:28:01.288223200 +0100
+***************
+*** 115,120 ****
+--- 115,122 ----
+
+      iput p2, p0, Lcom/discord/gateway/io/OutgoingPayload$Identify;->largeThreshold:I
+
++     const/4 p3, 0x0
++
+      iput-boolean p3, p0, Lcom/discord/gateway/io/OutgoingPayload$Identify;->compress:Z
+
+      iput-wide p4, p0, Lcom/discord/gateway/io/OutgoingPayload$Identify;->capabilities:J

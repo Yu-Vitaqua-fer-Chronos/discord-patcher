@@ -8,6 +8,6 @@
   "new_package_name": "com.fosscord",
   "old_app_name": "@string/discord",
   "new_app_name": "Fosscord",
-  "download_url": "",
+  "download_url": "https://aliucord.com/download/discord?v=126021",
   "debug": true
 }

@@ -6,6 +6,8 @@ import shutil
 import subprocess
 from json import load as jload
 from os import chdir, path, system, unlink, walk
+import urllib.request
+
 
 verbose = True
 stdout = subprocess.PIPE if verbose else subprocess.DEVNULL
@@ -16,10 +18,27 @@ with open('settings.json') as f:
 
 if not os.path.isfile("discord.apk"):
     print("[Download] Downloading Discord APK...")
+
     code = system(f'curl -L {config["download_url"]} -o discord.apk')
     if code != 0:
         print("[Download] Failed to download APK!")
         raise SystemExit(code)
+
+    '''
+    apk_url = config["download_url"]
+
+    while True:
+        try:
+            req = urllib.request.urlopen(apk_url)
+            print(req.read())
+            req.close()
+        except Exception as e:
+            if e.code == 403:
+                apk_url = e.geturl()
+                continue
+            print(e)
+            raise SystemExit("[Download] Failed to download APK!")
+    '''
     print("[Download] APK Downloaded")
 else:
     print("[Download] APK already downloaded")
@@ -128,8 +147,10 @@ r = subprocess.Popen('java -jar uber-apk-signer.jar --apks fosscord.unsigned.apk
 r.communicate()
 print("[Sign] APK signed")
 
+'''
 print("[Clean] Cleaning up...")
 shutil.rmtree("discord")
 unlink("fosscord.unsigned.apk")
+'''
 
 print("All done!")
