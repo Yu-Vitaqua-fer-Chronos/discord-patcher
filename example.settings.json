@@ -8,6 +8,6 @@
   "new_package_name": "com.fosscord",
   "old_app_name": "@string/discord",
   "new_app_name": "Fosscord",
-  "download_url": "https://github.com/Puyodead1/discord-patcher",
+  "download_url": "",
   "debug": true
 }

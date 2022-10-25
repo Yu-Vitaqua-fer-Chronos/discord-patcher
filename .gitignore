@@ -2,3 +2,5 @@ discord/
 settings.json
 *.jar
 *.apk
+
+!uber-apk-signer.jar

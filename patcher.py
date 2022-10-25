@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import typing
 import os
 import shutil
 import subprocess
@@ -29,7 +30,7 @@ if os.path.exists("discord"):
 
 print("[Decompile] Decompiling APK, this may take a minute...")
 r = subprocess.Popen('apktool d -f discord.apk', shell=True, text=True, stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
-r.stdin.write("\r\n")
+r.stdin.write('\r\n' if os.name=='nt' else '\n')
 r.communicate()
 chdir('discord')
 
@@ -102,21 +103,23 @@ with open('AndroidManifest.xml') as f:
 print("[Patcher] Patching complete")
 chdir('..')
 
-# print("[Icon] Replacing icon...")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-hdpi/ic_logo_round.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-hdpi/ic_logo_square.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xhdpi/ic_logo_round.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xhdpi/ic_logo_square.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/ic_logo_round.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/ic_logo_square.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/logo.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/ic_logo_round.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/ic_logo_square.png")
-# shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/logo.png")
+'''
+print("[Icon] Replacing icon...")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-hdpi/ic_logo_round.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-hdpi/ic_logo_square.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xhdpi/ic_logo_round.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xhdpi/ic_logo_square.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/ic_logo_round.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/ic_logo_square.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxhdpi/logo.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/ic_logo_round.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/ic_logo_square.png")
+shutil.copyfile("assets/icon.png", "discord/res/mipmap-xxxhdpi/logo.png")
+'''
 
 print("[Build] Rebuilding APK...")
 r = subprocess.Popen('apktool b discord/ -o fosscord.unsigned.apk', shell=True, text=True, stdin=subprocess.PIPE, stdout=stdout, stderr=stderr)
-r.stdin.write("\r\n")
+r.stdin.write('\r\n' if os.name=='nt' else '\n')
 r.communicate()
 print("[Build] APK rebuilt")
 
@@ -126,9 +129,7 @@ r.communicate()
 print("[Sign] APK signed")
 
 print("[Clean] Cleaning up...")
-# remove the decompiled files
 shutil.rmtree("discord")
-# remove the rebuilt unsigned apk
 unlink("fosscord.unsigned.apk")
 
 print("All done!")
